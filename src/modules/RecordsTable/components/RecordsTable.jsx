@@ -19,17 +19,24 @@ const RecordsTable = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: "Number",
       dataIndex: "number",
       key: "number",
       render: (_, record) => record.number || record.value,
+      sorter: (a, b) => (a.number || a.value) - (b.number || b.value),
     },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      sorter: (a, b) => new Date(a.date) - new Date(b.date),
+      render: (date) => {
+        if (!date) return '—';
+        return new Date(date).toLocaleDateString('ru-RU');
+      },
     },
     {
       title: "Actions",
@@ -54,7 +61,6 @@ const RecordsTable = () => {
             onConfirm={() => handleDelete(record.key, record.name)}
             okText="Yes"
             cancelText="No"
-            placement="topRight"
           >
             <Button 
               type="link" 

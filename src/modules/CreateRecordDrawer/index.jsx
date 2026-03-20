@@ -1,14 +1,15 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import UniversalDrawer from "../../UI/UniversalDrawer";
 import CreateRecordForm from "./components/CreateRecordForm";
 
 const CreateRecordDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const formRef = useRef();
 
   const handleSubmit = () => {
-    if (formRef.current) {
-      formRef.current.submitForm();
+    const form = document.getElementById('record-form');
+    if (form) {
+      const event = new Event('submit', { cancelable: true, bubbles: true });
+      form.dispatchEvent(event);
     }
   };
 
@@ -16,23 +17,15 @@ const CreateRecordDrawer = () => {
     setIsDrawerOpen(false);
   };
 
-  const handleCancel = () => {
-    setIsDrawerOpen(false);
-  };
-
   return (
     <UniversalDrawer
       title="Create Record"
       open={isDrawerOpen}
-      onSubmit={handleSubmit}
       onOpenChange={setIsDrawerOpen}
-      onCancel={handleCancel}
+      onSubmit={handleSubmit}
+      onCancel={() => setIsDrawerOpen(false)}
     >
-      <CreateRecordForm 
-        formRef={formRef}
-        onSuccess={handleSuccess}
-        onCancel={handleCancel}
-      />
+      <CreateRecordForm onSuccess={handleSuccess} />
     </UniversalDrawer>
   );
 };

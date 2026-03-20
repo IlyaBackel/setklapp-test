@@ -1,35 +1,32 @@
-import { Form, Input } from "antd";
-import { useEffect } from "react";
+import { Form, Input, DatePicker } from "antd";
 import { useRecords } from "../../../context/RecordsContext";
+import dayjs from "dayjs";
 
-const CreateRecordForm = ({ onSuccess, formRef }) => {
+const CreateRecordForm = ({ onSuccess }) => {
   const [form] = Form.useForm();
   const { addRecord } = useRecords();
 
-  useEffect(() => {
-    if (formRef) {
-      formRef.current = {
-        submitForm: () => {
-          form.submit();
-        },
-      };
-    }
-  }, [form, formRef]);
-
   const onFinish = (values) => {
+    const dateString = values.date.format('YYYY-MM-DD');
+    
     addRecord({
       name: values.name,
-      number: Number(values.number),
-      date: new Date().toISOString().split('T')[0], 
+      number: values.number,
+      value: values.number,
+      date: dateString,
     });
     
     form.resetFields();
-    
     if (onSuccess) onSuccess();
   };
 
   return (
-    <Form form={form} onFinish={onFinish} layout="vertical">
+    <Form 
+      id="record-form"
+      form={form}
+      onFinish={onFinish}
+      layout="vertical"
+    >
       <Form.Item 
         label="Name" 
         name="name"
@@ -47,6 +44,18 @@ const CreateRecordForm = ({ onSuccess, formRef }) => {
         ]}
       >
         <Input placeholder="Enter number" />
+      </Form.Item>
+
+      <Form.Item 
+        label="Date" 
+        name="date"
+        rules={[{ required: true, message: "Please select date!" }]}
+        initialValue={dayjs()}
+      >
+        <DatePicker 
+          style={{ width: '100%' }}
+          format="DD.MM.YYYY"
+        />
       </Form.Item>
     </Form>
   );

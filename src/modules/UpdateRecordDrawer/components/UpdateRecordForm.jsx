@@ -1,8 +1,9 @@
-import { Form, Input } from "antd";
+import { Form, Input, DatePicker } from "antd";
 import { useEffect } from "react";
 import { useRecords } from "../../../context/RecordsContext";
+import dayjs from "dayjs";
 
-const UpdateRecordForm = ({ initialValues, onSuccess, formRef }) => {
+const UpdateRecordForm = ({ initialValues, onSuccess }) => {
   const [form] = Form.useForm();
   const { updateRecord } = useRecords();
 
@@ -10,39 +11,32 @@ const UpdateRecordForm = ({ initialValues, onSuccess, formRef }) => {
     if (initialValues) {
       form.setFieldsValue({
         name: initialValues.name,
-        number: initialValues.number || initialValues.value, 
+        number: initialValues.number || initialValues.value,
+        date: dayjs(initialValues.date),
       });
     }
   }, [initialValues, form]);
 
-  useEffect(() => {
-    if (formRef) {
-      formRef.current = {
-        submitForm: () => {
-          form.submit();
-        },
-      };
-    }
-  }, [form, formRef]);
-
   const onFinish = (values) => {
     if (!initialValues) return;
 
+    const dateString = values.date.format('YYYY-MM-DD');
+    
     updateRecord(initialValues.key, {
       ...initialValues,
       name: values.name,
       number: values.number,
       value: values.number,
-      date: initialValues.date || new Date().toISOString().split('T')[0],
+      date: dateString,
     });
     
     form.resetFields();
-    
     if (onSuccess) onSuccess();
   };
 
   return (
     <Form 
+      id="update-record-form"
       form={form}
       onFinish={onFinish}
       layout="vertical"
@@ -64,6 +58,17 @@ const UpdateRecordForm = ({ initialValues, onSuccess, formRef }) => {
         ]}
       >
         <Input placeholder="Enter number" />
+      </Form.Item>
+
+      <Form.Item 
+        label="Date" 
+        name="date"
+        rules={[{ required: true, message: "Please select date!" }]}
+      >
+        <DatePicker 
+          style={{ width: '100%' }}
+          format="DD.MM.YYYY"
+        />
       </Form.Item>
     </Form>
   );

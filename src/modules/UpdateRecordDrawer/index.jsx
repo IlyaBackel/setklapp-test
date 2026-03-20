@@ -1,18 +1,14 @@
-import { useRef } from "react";
 import UniversalDrawer from "../../UI/UniversalDrawer";
 import UpdateRecordForm from "./components/UpdateRecordForm";
 
 const UpdateRecordDrawer = ({ record, open, onOpenChange, onSuccess }) => {
-  const formRef = useRef();
 
   const handleSubmit = () => {
-    if (formRef.current) {
-      formRef.current.submitForm();
+    const form = document.getElementById('update-record-form');
+    if (form) {
+      const event = new Event('submit', { cancelable: true, bubbles: true });
+      form.dispatchEvent(event);
     }
-  };
-
-  const handleCancel = () => {
-    onOpenChange(false);
   };
 
   const handleSuccess = () => {
@@ -26,12 +22,10 @@ const UpdateRecordDrawer = ({ record, open, onOpenChange, onSuccess }) => {
       open={open}
       onOpenChange={onOpenChange}
       onSubmit={handleSubmit}
-      onCancel={handleCancel}
-      size={720}
+      onCancel={() => onOpenChange(false)}
       submitButtonText="Update"
     >
       <UpdateRecordForm 
-        formRef={formRef}
         initialValues={record}
         onSuccess={handleSuccess}
       />
