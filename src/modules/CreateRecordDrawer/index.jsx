@@ -1,6 +1,6 @@
 import { useState } from "react";
 import UniversalDrawer from "../../UI/UniversalDrawer";
-import RecordForm from "./components/RecordForm";
+import CreateRecordForm from "./components/CreateRecordForm";
 
 const CreateRecordDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -20,7 +20,7 @@ const CreateRecordDrawer = () => {
       onOpenChange={setIsDrawerOpen}
       onCancel={handleCancel}
     >
-      <RecordForm 
+      <CreateRecordForm 
         onSuccess={handleSuccess}
         onCancel={handleCancel}
       />

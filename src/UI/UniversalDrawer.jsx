@@ -6,14 +6,14 @@ const UniversalDrawer = ({
   title = "Create Record",
   open, 
   onOpenChange,
+  onSubmit,
   onCancel,
-  size = 720
+  size = 720,
+  submitButtonText = "Submit"
 }) => {
-  const handleSubmit = () => {
-    const form = document.querySelector('form');
-    if (form) {
-      form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-    }
+  const handleClose = () => {
+    onOpenChange(false);
+    if (onCancel) onCancel();
   };
 
   return (
@@ -23,12 +23,12 @@ const UniversalDrawer = ({
         title={title}
         size={size}
         open={open}
-        onClose={() => onOpenChange(false)}
+        onClose={handleClose}
         extra={
           <Space>
-            <Button onClick={onCancel}>Cancel</Button>
-            <Button onClick={handleSubmit} type="primary">
-              Submit
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={onSubmit} type="primary">
+              {submitButtonText}
             </Button>
           </Space>
         }

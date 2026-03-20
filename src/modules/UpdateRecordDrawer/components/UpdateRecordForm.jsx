@@ -1,16 +1,39 @@
 import { Form, Input } from "antd";
+import { useEffect } from "react";
 import { useRecords } from "../../../context/RecordsContext";
 
-const RecordForm = ({ onSuccess }) => {
+const UpdateRecordForm = ({ initialValues, onSuccess, formRef }) => {
   const [form] = Form.useForm();
-  const { addRecord } = useRecords();
+  const { updateRecord } = useRecords();
+
+  useEffect(() => {
+    if (initialValues) {
+      form.setFieldsValue({
+        name: initialValues.name,
+        number: initialValues.number || initialValues.value, 
+      });
+    }
+  }, [initialValues, form]);
+
+  useEffect(() => {
+    if (formRef) {
+      formRef.current = {
+        submitForm: () => {
+          form.submit();
+        },
+      };
+    }
+  }, [form, formRef]);
 
   const onFinish = (values) => {
-    addRecord({
+    if (!initialValues) return;
+
+    updateRecord(initialValues.key, {
+      ...initialValues,
       name: values.name,
       number: values.number,
-      date: new Date().toISOString().split('T')[0], 
       value: values.number,
+      date: initialValues.date || new Date().toISOString().split('T')[0],
     });
     
     form.resetFields();
@@ -46,4 +69,4 @@ const RecordForm = ({ onSuccess }) => {
   );
 };
 
-export default RecordForm;
+export default UpdateRecordForm;
