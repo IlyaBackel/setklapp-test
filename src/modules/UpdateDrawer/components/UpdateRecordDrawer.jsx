@@ -1,5 +1,5 @@
-import UniversalDrawer from "../../UI/UniversalDrawer";
-import UpdateRecordForm from "./components/UpdateRecordForm";
+import UniversalDrawer from "../../../components/UniversalDrawer";
+import UpdateRecordForm from "./UpdateRecordForm";
 
 const UpdateRecordDrawer = ({ record, open, onOpenChange, onSuccess }) => {
 
@@ -20,7 +20,6 @@ const UpdateRecordDrawer = ({ record, open, onOpenChange, onSuccess }) => {
     <UniversalDrawer
       title="Update Record"
       open={open}
-      onOpenChange={onOpenChange}
       onSubmit={handleSubmit}
       onCancel={() => onOpenChange(false)}
       submitButtonText="Update"

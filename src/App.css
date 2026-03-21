@@ -1,3 +1,30 @@
 .container {
-  padding: 5rem 10rem;
+  padding: 4rem 8rem;
+  max-width: 85rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+}
+
+.table-header {
+  font-family: -apple-system, BlinkMacSystemFont;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-info {
+  color: #666;
+  font-size: 14px;
 }

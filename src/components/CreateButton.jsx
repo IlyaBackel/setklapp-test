@@ -1,5 +1,5 @@
-import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 import { useState } from "react";
 
 const CreateButton = ({ onClick }) => {
@@ -10,7 +10,6 @@ const CreateButton = ({ onClick }) => {
       type="primary"
       icon={<PlusOutlined />}
       style={{
-        marginTop: "1rem",
         width: isHovered ? "7rem" : "2.25rem",
         transition: "width 0.2s ease-in-out",
         overflow: "hidden",
