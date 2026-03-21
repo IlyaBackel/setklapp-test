@@ -1,7 +1,7 @@
-import RecordsTable from "./modules/RecordsTable/components/RecordsTable";
-import "./App.css";
-
+import RecordsTable from "./modules/RecordsTable";
 import CreateRecordDrawer from "./modules/CreateRecordDrawer";
+import "./App.css";
+import SearchBar from "./modules/SearchBar";
 
 function App() {
   return (

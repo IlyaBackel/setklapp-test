@@ -1,17 +1,41 @@
 import { Table, Button, Popconfirm, message } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useRecords } from "../../../context/RecordsContext";
-import { useState } from "react";
-import UpdateRecordDrawer from "../../UpdateRecordDrawer";
+import { useRecords } from "../../context/RecordsContext";
+import { useState, useMemo } from "react";
+import UpdateRecordDrawer from "../UpdateRecordDrawer";
+import SearchBar from "../SearchBar";
 
 const RecordsTable = () => {
   const { records, loading, deleteRecord } = useRecords();
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+
+  const filterRecords = (records, searchValue) => {
+    if (!searchValue) return records;
+    
+    const lowerSearchValue = searchValue.toLowerCase();
+    
+    return records.filter(record => {
+      return Object.values(record).some(value => {
+        if (value === null || value === undefined) return false;
+        return String(value).toLowerCase().includes(lowerSearchValue);
+      });
+    });
+  };
+
+
+  const filteredRecords = useMemo(() => {
+    return filterRecords(records, searchText);
+  }, [records, searchText]);
 
   const handleDelete = (key, name) => {
     deleteRecord(key);
     message.success(`Record "${name}" deleted successfully`);
+  };
+
+  const handleSearch = (value) => {
+    setSearchText(value);
   };
 
   const columns = [
@@ -33,10 +57,7 @@ const RecordsTable = () => {
       dataIndex: "date",
       key: "date",
       sorter: (a, b) => new Date(a.date) - new Date(b.date),
-      render: (date) => {
-        if (!date) return '—';
-        return new Date(date).toLocaleDateString('ru-RU');
-      },
+      render: (date) => new Date(date).toLocaleDateString('ru-RU'),
     },
     {
       title: "Actions",
@@ -77,14 +98,23 @@ const RecordsTable = () => {
 
   return (
     <>
+      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <SearchBar onSearch={handleSearch} />
+        {searchText && (
+          <span style={{ color: '#666' }}>
+            Found: {filteredRecords.length} of {records.length} records
+          </span>
+        )}
+      </div>
+      
       <Table 
-        dataSource={records} 
+        dataSource={filteredRecords}
         columns={columns} 
         bordered 
         loading={loading}
         rowKey="key"
         pagination={{
-          pageSize: 5,
+          pageSize: 7,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
         }}
       />

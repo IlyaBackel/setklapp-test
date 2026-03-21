@@ -18,7 +18,7 @@ const UniversalDrawer = ({
 
   return (
     <>
-      <CreateButton onClick={() => onOpenChange(true)} />
+      {title === "Create Record" && <CreateButton onClick={() => onOpenChange(true)} />}
       <Drawer
         title={title}
         size={size}
