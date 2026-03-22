@@ -3,7 +3,7 @@ import "./App.css";
 import { useState } from "react";
 
 import CreateRecordDrawer from "./modules/CreateDrawer";
-import { RecordsTable,TableHeader} from "./modules/RecordsTable";
+import { RecordsTable, TableHeader } from "./modules/RecordsTable";
 
 function App() {
   const [searchText, setSearchText] = useState("");
@@ -23,16 +23,15 @@ function App() {
     <div className="container">
       <div className="header-section">
         <CreateRecordDrawer />
-        <TableHeader 
+        <TableHeader
           onSearch={handleSearch}
           searchText={searchText}
           totalRecords={totalRecords}
           filteredCount={filteredCount}
         />
-        
       </div>
-      
-      <RecordsTable 
+
+      <RecordsTable
         searchText={searchText}
         onRecordsChange={handleRecordsChange}
       />

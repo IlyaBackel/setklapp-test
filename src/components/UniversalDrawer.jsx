@@ -1,9 +1,9 @@
 import { Button, Drawer, Space } from "antd";
 
-const UniversalDrawer = ({ 
-  children, 
+const UniversalDrawer = ({
+  children,
   title,
-  open, 
+  open,
   onSubmit,
   onCancel,
   submitButtonText,

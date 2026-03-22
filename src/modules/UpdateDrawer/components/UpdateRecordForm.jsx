@@ -22,8 +22,10 @@ const UpdateRecordForm = ({ initialValues, onSuccess }) => {
   const onFinish = (values) => {
     if (!initialValues) return;
 
-    const dateString = values.date ? values.date.format('YYYY-MM-DD') : initialValues.date;
-    
+    const dateString = values.date
+      ? values.date.format("YYYY-MM-DD")
+      : initialValues.date;
+
     updateRecord(initialValues.key, {
       ...initialValues,
       name: values.name,
@@ -31,12 +33,12 @@ const UpdateRecordForm = ({ initialValues, onSuccess }) => {
       value: values.number,
       date: dateString,
     });
-    
+
     if (onSuccess) onSuccess();
   };
 
   return (
-    <Form 
+    <Form
       id="update-record-form"
       form={form}
       onFinish={onFinish}

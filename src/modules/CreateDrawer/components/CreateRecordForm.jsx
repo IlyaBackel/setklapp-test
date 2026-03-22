@@ -8,21 +8,23 @@ const CreateRecordForm = ({ onSuccess }) => {
   const { addRecord } = useRecords();
 
   const onFinish = (values) => {
-    const dateString = values.date ? values.date.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0];
-    
+    const dateString = values.date
+      ? values.date.format("YYYY-MM-DD")
+      : new Date().toISOString().split("T")[0];
+
     addRecord({
       name: values.name,
       number: values.number,
       value: values.number,
       date: dateString,
     });
-    
+
     form.resetFields();
     if (onSuccess) onSuccess();
   };
 
   return (
-    <Form 
+    <Form
       id="create-record-form"
       form={form}
       onFinish={onFinish}

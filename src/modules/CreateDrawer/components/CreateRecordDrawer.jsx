@@ -8,9 +8,9 @@ const CreateRecordDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleSubmit = () => {
-    const form = document.getElementById('create-record-form');
+    const form = document.getElementById("create-record-form");
     if (form) {
-      const event = new Event('submit', { cancelable: true, bubbles: true });
+      const event = new Event("submit", { cancelable: true, bubbles: true });
       form.dispatchEvent(event);
     }
   };
@@ -22,7 +22,7 @@ const CreateRecordDrawer = () => {
   return (
     <>
       <CreateButton onClick={() => setIsDrawerOpen(true)} />
-      
+
       <UniversalDrawer
         title="Create Record"
         open={isDrawerOpen}

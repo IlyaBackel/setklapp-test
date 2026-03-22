@@ -1,9 +1,9 @@
 import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
 
 const RecordsContext = createContext();
@@ -83,7 +83,7 @@ export const RecordsProvider = ({ children }) => {
   }, [records, initialized]);
 
   const addRecord = useCallback((record) => {
-    console.log('create')
+    console.log("create");
     const newRecord = {
       key: Date.now().toString(),
       ...record,
