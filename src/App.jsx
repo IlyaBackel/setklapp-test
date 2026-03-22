@@ -1,12 +1,12 @@
-import "./App.css";
+import './App.css';
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import CreateRecordDrawer from "./modules/CreateDrawer";
-import { RecordsTable, TableHeader } from "./modules/RecordsTable";
+import CreateRecordDrawer from './modules/CreateDrawer';
+import { RecordsTable, TableHeader } from './modules/RecordsTable';
 
 function App() {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [totalRecords, setTotalRecords] = useState(0);
   const [filteredCount, setFilteredCount] = useState(0);
 

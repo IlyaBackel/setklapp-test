@@ -1,12 +1,12 @@
-import { Input, Space } from "antd";
-import { useEffect, useState } from "react";
+import { Input, Space } from 'antd';
+import { useEffect, useState } from 'react';
 
-import { useDebounce } from "../../../hooks/useDebounce";
+import { useDebounce } from '../../../hooks/useDebounce';
 
 const { Search } = Input;
 
 const SearchBar = ({ onSearch }) => {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const debouncedSearchValue = useDebounce(searchValue, 300);
 
   useEffect(() => {
@@ -23,8 +23,8 @@ const SearchBar = ({ onSearch }) => {
   };
 
   const handleClear = () => {
-    setSearchValue("");
-    onSearch("");
+    setSearchValue('');
+    onSearch('');
   };
 
   return (

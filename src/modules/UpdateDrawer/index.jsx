@@ -1,1 +1,1 @@
-export { default as UpdateRecordDrawer } from "./components/UpdateRecordDrawer";
+export { default as UpdateRecordDrawer } from './components/UpdateRecordDrawer';

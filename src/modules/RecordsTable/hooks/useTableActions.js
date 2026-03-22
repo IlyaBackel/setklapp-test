@@ -1,7 +1,7 @@
-import { message } from "antd";
-import { useState } from "react";
+import { message } from 'antd';
+import { useState } from 'react';
 
-import { useRecordsMethods } from "../../../context/RecordsContext";
+import { useRecordsMethods } from '../../../context/RecordsContext';
 
 export const useTableActions = () => {
   const { deleteRecord } = useRecordsMethods();

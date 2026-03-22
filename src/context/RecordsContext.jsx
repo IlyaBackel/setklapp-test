@@ -5,9 +5,9 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
-import { loadFromStorage, saveToStorage } from "./utils/storage";
+import { loadFromStorage, saveToStorage } from './utils/storage';
 
 const RecordsValueContext = createContext();
 const RecordsMethodsContext = createContext();
@@ -27,7 +27,7 @@ export const RecordsProvider = ({ children }) => {
   const updateRecord = useCallback((key, updatedRecord) => {
     setRecords((prev) => {
       return prev.map((record) =>
-        record.key === key ? { ...updatedRecord, key } : record,
+        record.key === key ? { ...updatedRecord, key } : record
       );
     });
   }, []);
@@ -40,7 +40,7 @@ export const RecordsProvider = ({ children }) => {
 
   const methods = useMemo(
     () => ({ addRecord, updateRecord, deleteRecord }),
-    [addRecord, deleteRecord, updateRecord],
+    [addRecord, deleteRecord, updateRecord]
   );
 
   return (
@@ -55,7 +55,7 @@ export const RecordsProvider = ({ children }) => {
 export function useRecordsValue() {
   const context = useContext(RecordsValueContext);
   if (!context) {
-    throw new Error("useRecordsValue must be used within RecordsValueProvider");
+    throw new Error('useRecordsValue must be used within RecordsValueProvider');
   }
   return context;
 }
@@ -64,7 +64,7 @@ export function useRecordsMethods() {
   const context = useContext(RecordsMethodsContext);
   if (!context) {
     throw new Error(
-      "useRecordsMethods must be used within RecordsMethodsProvider",
+      'useRecordsMethods must be used within RecordsMethodsProvider'
     );
   }
   return context;

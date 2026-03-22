@@ -1,4 +1,4 @@
-import { Button, Drawer, Space } from "antd";
+import { Button, Drawer, Space } from 'antd';
 
 const UniversalDrawer = ({
   children,

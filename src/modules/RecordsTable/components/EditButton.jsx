@@ -1,5 +1,5 @@
-import { EditOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { EditOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 
 const EditButton = ({ onEdit }) => {
   return (
@@ -9,7 +9,7 @@ const EditButton = ({ onEdit }) => {
       size="medium"
       icon={<EditOutlined />}
       onClick={onEdit}
-      style={{ backgroundColor: "#cca300ff" }}
+      style={{ backgroundColor: '#cca300ff' }}
     />
   );
 };

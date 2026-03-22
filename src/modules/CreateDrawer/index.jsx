@@ -1,1 +1,1 @@
-export { default } from "./components/CreateRecordDrawer";
+export { default } from './components/CreateRecordDrawer';

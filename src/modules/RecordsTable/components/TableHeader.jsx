@@ -1,4 +1,4 @@
-import SearchBar from "../../SearchBar";
+import SearchBar from '../../SearchBar';
 
 const TableHeader = ({ onSearch, searchText, totalRecords, filteredCount }) => {
   return (
