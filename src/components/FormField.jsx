@@ -32,6 +32,7 @@ const FormFields = ({ initialValues = {} }) => {
         label="Date"
         name="date"
         initialValue={initialValues?.date ? dayjs(initialValues.date) : dayjs()}
+        rules={[{ required: true, message: "Please select a date!" }]}
       >
         <DatePicker
           style={{ width: "100%" }}

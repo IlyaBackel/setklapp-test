@@ -1,10 +1,10 @@
 import { message } from "antd";
 import { useState } from "react";
 
-import { useRecords } from "../../../context/RecordsContext";
+import { useRecordsMethods } from "../../../context/RecordsContext";
 
 export const useTableActions = () => {
-  const { deleteRecord } = useRecords();
+  const { deleteRecord } = useRecordsMethods();
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -13,9 +13,9 @@ export const useTableActions = () => {
     setIsDrawerOpen(true);
   };
 
-  const handleDelete = (key, name) => {
-    deleteRecord(key);
-    message.success(`Record "${name}" deleted successfully`);
+  const handleDelete = (record) => {
+    deleteRecord(record.key);
+    message.success(`Record "${record.name}" deleted successfully`);
   };
 
   const handleCloseDrawer = () => {

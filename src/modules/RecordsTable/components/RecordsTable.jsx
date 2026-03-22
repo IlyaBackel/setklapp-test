@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import { useEffect } from "react";
 
-import { useRecords } from "../../../context/RecordsContext";
+import { useRecordsValue } from "../../../context/RecordsContext";
 import { UpdateRecordDrawer } from "../../UpdateDrawer";
 import { useSearch } from "../hooks/useSearch";
 import { useTableActions } from "../hooks/useTableActions";
@@ -9,7 +9,7 @@ import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 
 const RecordsTable = ({ searchText, onRecordsChange }) => {
-  const { records, loading } = useRecords();
+  const records = useRecordsValue();
   const { filteredRecords } = useSearch(records, searchText);
   const {
     selectedRecord,
@@ -20,10 +20,8 @@ const RecordsTable = ({ searchText, onRecordsChange }) => {
   } = useTableActions();
 
   useEffect(() => {
-    if (onRecordsChange) {
-      onRecordsChange(records.length, filteredRecords.length);
-    }
-  }, [records, filteredRecords, onRecordsChange]);
+    onRecordsChange?.(records.length, filteredRecords.length);
+  }, [records.length, filteredRecords.length, onRecordsChange]);
 
   const columns = [
     {
@@ -53,10 +51,10 @@ const RecordsTable = ({ searchText, onRecordsChange }) => {
       width: 120,
       render: (_, record) => (
         <div style={{ display: "flex", gap: "8px" }}>
-          <EditButton record={record} onEdit={() => handleEdit(record)} />
+          <EditButton onEdit={() => handleEdit(record)} />
           <DeleteButton
             name={record.name}
-            onDelete={() => handleDelete(record.key, record.name)}
+            onDelete={() => handleDelete(record)}
           />
         </div>
       ),
@@ -68,7 +66,6 @@ const RecordsTable = ({ searchText, onRecordsChange }) => {
       <Table
         dataSource={filteredRecords}
         columns={columns}
-        loading={loading}
         bordered
         borderColor="#000000ff"
         rowKey="key"

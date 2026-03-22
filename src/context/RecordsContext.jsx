@@ -3,131 +3,69 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
-const RecordsContext = createContext();
+import { loadFromStorage, saveToStorage } from "./utils/storage";
 
-const STORAGE_KEY = "app_records";
-
-const DEFAULT_DATA = [
-  {
-    key: "1",
-    name: "Иван Петров",
-    date: "2024-01-15",
-    number: 42,
-  },
-  {
-    key: "2",
-    name: "Мария Сидорова",
-    date: "2024-02-20",
-    number: 37,
-  },
-  {
-    key: "3",
-    name: "Алексей Иванов",
-    date: "2024-03-10",
-    number: 55,
-  },
-];
-
-const loadFromStorage = () => {
-  try {
-    const storedData = localStorage.getItem(STORAGE_KEY);
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      return parsedData;
-    }
-    return DEFAULT_DATA;
-  } catch (error) {
-    console.error("Error loading data from localStorage:", error);
-    return DEFAULT_DATA;
-  }
-};
-
-const saveToStorage = (data) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (error) {
-    console.error("Error saving data to localStorage:", error);
-  }
-};
+const RecordsValueContext = createContext();
+const RecordsMethodsContext = createContext();
 
 export const RecordsProvider = ({ children }) => {
-  const [records, setRecords] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
+  const [records, setRecords] = useState(loadFromStorage);
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        const loadedData = loadFromStorage();
-        setRecords(loadedData);
-        setInitialized(true);
-      } catch (error) {
-        console.error("Failed to load data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    if (initialized) {
-      saveToStorage(records);
-    }
-  }, [records, initialized]);
+    saveToStorage(records);
+  }, [records]);
 
   const addRecord = useCallback((record) => {
-    console.log("create");
-    const newRecord = {
-      key: Date.now().toString(),
-      ...record,
-    };
-    setRecords((prev) => {
-      const newRecords = [newRecord, ...prev];
-      return newRecords;
-    });
+    const newRecord = { key: Date.now().toString(), ...record };
+    setRecords((prev) => [newRecord, ...prev]);
   }, []);
 
   const updateRecord = useCallback((key, updatedRecord) => {
     setRecords((prev) => {
-      const newRecords = prev.map((record) =>
+      return prev.map((record) =>
         record.key === key ? { ...updatedRecord, key } : record,
       );
-      return newRecords;
     });
   }, []);
 
   const deleteRecord = useCallback((key) => {
     setRecords((prev) => {
-      const newRecords = prev.filter((record) => record.key !== key);
-      return newRecords;
+      return prev.filter((record) => record.key !== key);
     });
   }, []);
 
-  const value = {
-    records,
-    loading,
-    addRecord,
-    updateRecord,
-    deleteRecord,
-  };
+  const methods = useMemo(
+    () => ({ addRecord, updateRecord, deleteRecord }),
+    [addRecord, deleteRecord, updateRecord],
+  );
 
   return (
-    <RecordsContext.Provider value={value}>{children}</RecordsContext.Provider>
+    <RecordsValueContext.Provider value={records}>
+      <RecordsMethodsContext.Provider value={methods}>
+        {children}
+      </RecordsMethodsContext.Provider>
+    </RecordsValueContext.Provider>
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export function useRecords() {
-  const context = useContext(RecordsContext);
+export function useRecordsValue() {
+  const context = useContext(RecordsValueContext);
   if (!context) {
-    throw new Error("useRecords must be used within RecordsProvider");
+    throw new Error("useRecordsValue must be used within RecordsValueProvider");
+  }
+  return context;
+}
+
+export function useRecordsMethods() {
+  const context = useContext(RecordsMethodsContext);
+  if (!context) {
+    throw new Error(
+      "useRecordsMethods must be used within RecordsMethodsProvider",
+    );
   }
   return context;
 }
